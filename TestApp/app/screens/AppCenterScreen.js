@@ -26,6 +26,14 @@ const SecretStrings = {
     target: 'target=4dacd24d0b1b42db9894926d0db2f4c7-39311d37-fb55-479c-b7b6-9893b53d0186-7306'
   }
 };
+const AADSecretStrings = {
+  ios: {
+    appSecret: 'a9ee0bf2-831a-4f83-93a2-4786d8cb5f23',
+  },
+  android: {
+    appSecret: 'be23fc61-f73b-4feb-8815-c8ad31804202',
+  }
+};
 SecretStrings.ios.both = `appsecret=${SecretStrings.ios.appSecret};${SecretStrings.ios.target}`;
 SecretStrings.android.both = `appsecret=${SecretStrings.android.appSecret};${SecretStrings.android.target}`;
 
@@ -33,8 +41,12 @@ const STARTUP_MODE = 'STARTUP_MODE';
 
 const StartupModes = [
   {
-    label: 'AppCenter target only',
-    key: 'APPCENTER'
+    label: 'AppCenter B2C target only',
+    key: 'APPCENTERB2C'
+  },
+  {
+    label: 'AppCenter AAD target only',
+    key: 'APPCENTERAAD'
   },
   {
     label: 'OneCollector target only',
@@ -136,8 +148,11 @@ export default class AppCenterScreen extends Component {
 
   async selectStartup(key) {
     switch (key) {
-      case 'APPCENTER':
+      case 'APPCENTERB2C':
         await this.configureStartup(SecretStrings[Platform.OS].appSecret, true);
+        break;
+      case 'APPCENTERAAD':
+        await this.configureStartup(AADSecretStrings[Platform.OS].appSecret, true);
         break;
       case 'TARGET':
         await this.configureStartup(SecretStrings[Platform.OS].target, true);
